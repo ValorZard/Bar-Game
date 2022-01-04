@@ -23,7 +23,9 @@ class Drink:
 var current_drink : Drink
 var customer_order : Drink
 
-
+var current_score : int
+var beginning_wait_time : int
+var level : int
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	randomize()
@@ -33,10 +35,17 @@ func _ready():
 	$OtherStuff.connect("pressed", self, "_on_OtherStuff_pressed")
 	$TrashBin.connect("pressed", self, "_on_TrashBin_pressed")
 	$SubmitDrink.connect("pressed", self, "_on_SubmitDrink_pressed")
+	$Timer.connect("timeout", self, "_on_Timeout")
 	
 	current_drink = Drink.new()
 	randomize_customer_order()
-	pass
+	
+	current_score = 0
+	beginning_wait_time = 100
+	level = 1
+	
+	$Timer.wait_time = beginning_wait_time
+	$Timer.start()
 
 func randomize_customer_order():
 	var drink = Drink.new()
@@ -62,19 +71,41 @@ func dump_drink():
 func _on_TrashBin_pressed():
 	dump_drink()
 
+func calculate_score():
+	current_score += int($Timer.time_left) * level * level
+
+func change_level():
+	level += 1
+	$Timer.wait_time = beginning_wait_time / level
+	$Timer.start()
+
 func _on_SubmitDrink_pressed():
 	if current_drink.equals(customer_order):
 		dump_drink()
 		randomize_customer_order()
+		calculate_score()
+		change_level()
 		$SuccessLabel.text = "Sucess!"
 	else:
 		$SuccessLabel.text = "Failed!"
 
+func _on_Timeout():
+	randomize_customer_order()
+	$SuccessLabel.text = "Failed!"
+
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
-	$OrderLabel.text = "Customer Booze Amount: " + str(customer_order.booze_amt)
+	# Score
+	$ScoreLabel.text = "Time: " + str($Timer.time_left)
+	$ScoreLabel.text += "\n" + "Current Score: " + str(current_score)
+	$ScoreLabel.text += "\n" + "Level: " + str(level)
+	# Current Order
+	$OrderLabel.text = "Current Order"
+	$OrderLabel.text += "\n" + "Customer Booze Amount: " + str(customer_order.booze_amt)
 	$OrderLabel.text += "\n" + "Customer Juice Amount: " + str(customer_order.juice_amt)
 	$OrderLabel.text += "\n" + "Customer Amount of Other Stuff: " + str(customer_order.other_stuff)
-	$OrderLabel.text += "\n" + "Current Booze Amount: " + str(current_drink.booze_amt)
-	$OrderLabel.text += "\n" + "Current Juice Amount: " + str(current_drink.juice_amt)
-	$OrderLabel.text += "\n" + "Amount of Other Stuff: " + str(current_drink.other_stuff)
+	# Drink
+	$DrinkLabel.text = "Current Drink"
+	$DrinkLabel.text += "\n" + "Current Booze Amount: " + str(current_drink.booze_amt)
+	$DrinkLabel.text += "\n" + "Current Juice Amount: " + str(current_drink.juice_amt)
+	$DrinkLabel.text += "\n" + "Amount of Other Stuff: " + str(current_drink.other_stuff)

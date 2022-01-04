@@ -8,5 +8,4 @@ export_presets.cfg
 .mono/
 
 # Project-specific ignores
-HTMLBuild.zip
-HTMLBuild/
+Build/
