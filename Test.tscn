@@ -46,3 +46,13 @@ margin_bottom = 109.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="TrashBin" type="Button" parent="."]
+margin_left = 880.0
+margin_top = 464.0
+margin_right = 949.0
+margin_bottom = 500.0
+text = "TrashBin"
+__meta__ = {
+"_edit_use_anchors_": false
+}

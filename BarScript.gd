@@ -13,6 +13,7 @@ func _ready():
 	$BoozeBottle.connect("pressed", self, "_on_BoozeBottle_pressed")
 	$JuiceBottle.connect("pressed", self, "_on_JuiceBottle_pressed")
 	$OtherStuff.connect("pressed", self, "_on_OtherStuff_pressed")
+	$TrashBin.connect("pressed", self, "_on_TrashBin_pressed")
 	pass
 
 func _on_BoozeBottle_pressed():
@@ -23,6 +24,11 @@ func _on_JuiceBottle_pressed():
 
 func _on_OtherStuff_pressed():
 	other_stuff += 1
+
+func _on_TrashBin_pressed():
+	booze_amt = 0
+	juice_amt = 0
+	other_stuff = 0
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
