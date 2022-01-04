@@ -26,6 +26,8 @@ var customer_order : Drink
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	randomize()
+	
 	$BoozeBottle.connect("pressed", self, "_on_BoozeBottle_pressed")
 	$JuiceBottle.connect("pressed", self, "_on_JuiceBottle_pressed")
 	$OtherStuff.connect("pressed", self, "_on_OtherStuff_pressed")
@@ -33,19 +35,17 @@ func _ready():
 	$SubmitDrink.connect("pressed", self, "_on_SubmitDrink_pressed")
 	
 	current_drink = Drink.new()
-	customer_order = randomize_customer_order()
+	randomize_customer_order()
 	pass
 
-func randomize_customer_order() -> Drink:
-	var rng = RandomNumberGenerator.new()
-	
+func randomize_customer_order():
 	var drink = Drink.new()
 	
-	drink.booze_amt = rng.randi_range(1, 3)
-	drink.juice_amt = rng.randi_range(0, 3)
-	drink.other_stuff = rng.randi_range(1, 3)
+	drink.booze_amt = randi() % 3 + 1
+	drink.juice_amt = randi() % 3
+	drink.other_stuff = randi() % 3
 	
-	return drink
+	customer_order = drink
 
 func _on_BoozeBottle_pressed():
 	current_drink.booze_amt += 1
