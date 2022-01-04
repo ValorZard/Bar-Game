@@ -17,10 +17,10 @@ __meta__ = {
 }
 
 [node name="OtherStuff" type="Button" parent="."]
-margin_left = 486.0
-margin_top = 341.0
-margin_right = 563.0
-margin_bottom = 387.0
+margin_left = 481.0
+margin_top = 444.0
+margin_right = 562.0
+margin_bottom = 490.0
 rect_pivot_offset = Vector2( -505, 92 )
 text = "Other stuff"
 __meta__ = {
@@ -38,7 +38,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Label" type="Label" parent="."]
+[node name="OrderLabel" type="Label" parent="."]
 margin_left = 504.0
 margin_top = 95.0
 margin_right = 544.0
@@ -53,6 +53,26 @@ margin_top = 464.0
 margin_right = 949.0
 margin_bottom = 500.0
 text = "TrashBin"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="SubmitDrink" type="Button" parent="."]
+margin_left = 490.0
+margin_top = 285.0
+margin_right = 560.0
+margin_bottom = 327.0
+text = "Submit Drink"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="SuccessLabel" type="Label" parent="."]
+margin_left = 470.0
+margin_top = 384.0
+margin_right = 577.0
+margin_bottom = 398.0
+text = "Don't know yet..."
 __meta__ = {
 "_edit_use_anchors_": false
 }
