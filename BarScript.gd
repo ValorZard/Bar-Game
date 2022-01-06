@@ -21,7 +21,7 @@ class Drink:
 		and self.other_stuff == other_drink.other_stuff)
 
 var current_drink : Drink
-var customer_order : Drink
+var customer_orders : Array
 
 var current_score : int
 var beginning_wait_time : int
@@ -38,6 +38,7 @@ func _ready():
 	$Timer.connect("timeout", self, "_on_Timeout")
 	
 	current_drink = Drink.new()
+	customer_orders = []
 	randomize_customer_order()
 	
 	current_score = 0
@@ -48,13 +49,17 @@ func _ready():
 	$Timer.start()
 
 func randomize_customer_order():
-	var drink = Drink.new()
+	var i := 0
+	while (i < level % 4 + 1):
+		var drink = Drink.new()
 	
-	drink.booze_amt = randi() % 3 + 1
-	drink.juice_amt = randi() % 3
-	drink.other_stuff = randi() % 3
+		drink.booze_amt = randi() % 3 + 1
+		drink.juice_amt = randi() % 3
+		drink.other_stuff = randi() % 3
 	
-	customer_order = drink
+		customer_orders.append(drink)
+		
+		i += 1
 
 func _on_BoozeBottle_pressed():
 	current_drink.booze_amt += 1
@@ -80,14 +85,19 @@ func change_level():
 	$Timer.start()
 
 func _on_SubmitDrink_pressed():
-	if current_drink.equals(customer_order):
-		dump_drink()
-		randomize_customer_order()
-		calculate_score()
-		change_level()
-		$SuccessLabel.text = "Sucess!"
-	else:
-		$SuccessLabel.text = "Failed!"
+	for drink in customer_orders:
+		if current_drink.equals(drink):
+			dump_drink()
+			customer_orders.erase(drink)
+			calculate_score()
+			
+			if len(customer_orders) == 0:
+				randomize_customer_order()
+				change_level()
+			
+			$SuccessLabel.text = "Sucess!"
+		else:
+			$SuccessLabel.text = "Failed!"
 
 func _on_Timeout():
 	randomize_customer_order()
@@ -100,10 +110,12 @@ func _process(delta):
 	$ScoreLabel.text += "\n" + "Current Score: " + str(current_score)
 	$ScoreLabel.text += "\n" + "Level: " + str(level)
 	# Current Order
-	$OrderLabel.text = "Current Order"
-	$OrderLabel.text += "\n" + "Customer Booze Amount: " + str(customer_order.booze_amt)
-	$OrderLabel.text += "\n" + "Customer Juice Amount: " + str(customer_order.juice_amt)
-	$OrderLabel.text += "\n" + "Customer Amount of Other Stuff: " + str(customer_order.other_stuff)
+	$OrderLabel.text = "Current Orders"
+	for drink in customer_orders:
+		$OrderLabel.text += "\n" + "--------------------------------"
+		$OrderLabel.text += "\n" + "Customer Booze Amount: " + str(drink.booze_amt)
+		$OrderLabel.text += "\n" + "Customer Juice Amount: " + str(drink.juice_amt)
+		$OrderLabel.text += "\n" + "Customer Amount of Other Stuff: " + str(drink.other_stuff)
 	# Drink
 	$DrinkLabel.text = "Current Drink"
 	$DrinkLabel.text += "\n" + "Current Booze Amount: " + str(current_drink.booze_amt)
