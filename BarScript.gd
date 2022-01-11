@@ -118,6 +118,7 @@ func _process(delta):
 		$OrderLabel.text += "\n" + "Customer Amount of Other Stuff: " + str(drink.other_stuff)
 	# Drink
 	$DrinkLabel.text = "Current Drink"
+	$DrinkLabel.text += "\n" + "--------------------------------"
 	$DrinkLabel.text += "\n" + "Current Booze Amount: " + str(current_drink.booze_amt)
 	$DrinkLabel.text += "\n" + "Current Juice Amount: " + str(current_drink.juice_amt)
 	$DrinkLabel.text += "\n" + "Amount of Other Stuff: " + str(current_drink.other_stuff)
