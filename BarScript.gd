@@ -26,6 +26,7 @@ var customer_orders : Array
 var current_score : int
 var beginning_wait_time : int
 var level : int
+var money : int
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	randomize()
@@ -75,14 +76,27 @@ func dump_drink():
 
 func _on_TrashBin_pressed():
 	dump_drink()
+	# lets just say each drink is five dollars to keep it simple
+	money -= 5 
 
 func calculate_score():
 	current_score += int($Timer.time_left) * level * level
 
 func change_level():
 	level += 1
+	# subtract operating costs from money
+	if (level % 6 == 0):
+		money -= 50
+	if (money < 0):
+		end_game()
 	$Timer.wait_time = beginning_wait_time / level
 	$Timer.start()
+
+func end_game():
+	get_tree().change_scene("res://ScoreScreen.tscn")
+	GameState.score = current_score
+	GameState.money = money
+	GameState.level = level
 
 func _on_SubmitDrink_pressed():
 	for drink in customer_orders:
@@ -90,6 +104,8 @@ func _on_SubmitDrink_pressed():
 			dump_drink()
 			customer_orders.erase(drink)
 			calculate_score()
+			# lets just say each drink is five dollars to keep it simple
+			money += 5 
 			
 			if len(customer_orders) == 0:
 				randomize_customer_order()
@@ -109,6 +125,7 @@ func _process(delta):
 	$ScoreLabel.text = "Time: " + str($Timer.time_left)
 	$ScoreLabel.text += "\n" + "Current Score: " + str(current_score)
 	$ScoreLabel.text += "\n" + "Level: " + str(level)
+	$ScoreLabel.text += "\n" + "Money Left: " + str(money)
 	# Current Order
 	$OrderLabel.text = "Current Orders"
 	for drink in customer_orders:
