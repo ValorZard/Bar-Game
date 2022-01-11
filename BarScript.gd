@@ -50,6 +50,7 @@ func _ready():
 	$Timer.start()
 
 func randomize_customer_order():
+	customer_orders.clear()
 	var i := 0
 	while (i < level % 4 + 1):
 		var drink = Drink.new()
@@ -116,6 +117,7 @@ func _on_SubmitDrink_pressed():
 			$SuccessLabel.text = "Failed!"
 
 func _on_Timeout():
+	change_level()
 	randomize_customer_order()
 	$SuccessLabel.text = "Failed!"
 
@@ -129,10 +131,11 @@ func _process(delta):
 	# Current Order
 	$OrderLabel.text = "Current Orders"
 	for drink in customer_orders:
-		$OrderLabel.text += "\n" + "--------------------------------"
+		$OrderLabel.text += "\n" + "___________________________________________"
 		$OrderLabel.text += "\n" + "Customer Booze Amount: " + str(drink.booze_amt)
 		$OrderLabel.text += "\n" + "Customer Juice Amount: " + str(drink.juice_amt)
 		$OrderLabel.text += "\n" + "Customer Amount of Other Stuff: " + str(drink.other_stuff)
+		$OrderLabel.text += "\n" + "___________________________________________"
 	# Drink
 	$DrinkLabel.text = "Current Drink"
 	$DrinkLabel.text += "\n" + "--------------------------------"

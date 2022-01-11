@@ -22,6 +22,24 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="Panel" type="Panel" parent="."]
+margin_left = 43.0
+margin_top = 86.0
+margin_right = 315.0
+margin_bottom = 553.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Panel2" type="Panel" parent="."]
+margin_left = 579.0
+margin_top = 90.0
+margin_right = 755.0
+margin_bottom = 211.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [node name="OtherStuff" type="Button" parent="."]
 margin_left = 760.0
 margin_top = 260.0
